@@ -57,6 +57,26 @@ class AuthFailed extends HttpException {
   }
 }
 
+// 已存在
+class Existing extends HttpException {
+  constructor(msg, errorCode) {
+    super()
+    this.msg = msg || '已存在'
+    this.errorCode = errorCode || 10004
+    this.code = 200
+  }
+}
+
+// 非法日期
+class NotIllegalDate extends HttpException {
+  constructor(msg, errorCode) {
+    super()
+    this.msg = msg || '非法日期'
+    this.errorCode = errorCode || 10004
+    this.code = 200
+  }
+}
+
 module.exports = {
   HttpException,
   ParameterException,
@@ -64,4 +84,6 @@ module.exports = {
   NotFound,
   AuthFailed,
   Forbidden,
+  Existing,
+  NotIllegalDate,
 }

@@ -16,10 +16,9 @@ const findMembers = function (instance, {
     if (instance.__proto__ === null) return []
 
     let names = Reflect.ownKeys(instance)
-    names = names.filter((name) => {
+    names = names.filter((name) =>
       // eslint-disable-next-line no-use-before-define
-      return _shouldKeep(name)
-    })
+      _shouldKeep(name))
 
     // eslint-disable-next-line no-proto
     return [...names, ..._find(instance.__proto__)]
@@ -61,7 +60,45 @@ const generateToken = function (uid, scope) {
   return token
 }
 
+const DateReg = /^(\d{1,4})(-)(\d{1,2})\2(\d{1,2})$/;
+
+const checkDate = (date) => {
+  if (!date) {
+    return {
+      res: 4,
+      msg: '日期不能为空',
+    }
+  }
+  if (date.length === 10) {
+    const r = date.match(DateReg);
+    if (r === null) {
+      // 不符合YYYY-MM-DD格式
+      return {
+        res: 2,
+        msg: '不符合YYYY-MM-DD格式',
+      }
+    }
+    // 除去不正确时间如1234-45-56
+    const [, year, , month, day] = r;
+    if (year < 1970 || (+month < 1 || +month > 12) || (day < 1 || day > 31)) {
+      return {
+        res: 3,
+        msg: '非法日期',
+      }
+    }
+    return {
+      res: 1,
+    }
+  }
+  return {
+    res: 2,
+    msg: '不符合YYYY-MM-DD格式',
+  };
+}
+
 module.exports = {
   findMembers,
   generateToken,
+  DateReg,
+  checkDate,
 }

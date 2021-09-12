@@ -110,10 +110,27 @@ class ClassValidator extends LinValidator {
   }
 }
 
+// 新增一项支出验证
+class AddCategoryValidator extends LinValidator {
+  constructor() {
+    super()
+    this.value = [new Rule('isLength', '不允许为空', { min: 1 })];
+    this.categoryId = [new Rule('isLength', '不允许为空', { min: 1 })];
+    this.describe = [
+      new Rule('isOptional'),
+      new Rule('isLength', '最多128个字符', {
+        min: 1,
+        max: 128,
+      }),
+    ]
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   NotEmptyValidator,
   ClassValidator,
+  AddCategoryValidator,
 }
