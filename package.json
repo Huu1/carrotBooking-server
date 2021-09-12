@@ -1,0 +1,37 @@
+{
+  "name": "island_server",
+  "version": "1.0.0",
+  "description": "island's back end server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "koa",
+    "isLand"
+  ],
+  "author": "AqingCyan",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "basic-auth": "^2.0.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.4.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "lodash": "^4.17.11",
+    "mysql2": "^2.1.0",
+    "npm-check": "^5.9.0",
+    "require-directory": "^2.1.1",
+    "sequelize": "^5.21.3",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.0"
+  }
+}
