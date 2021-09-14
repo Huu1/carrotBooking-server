@@ -21,6 +21,7 @@ class PositiveIntegerValidator extends LinValidator {
   }
 }
 
+
 // 注册验证
 class RegisterValidator extends LinValidator {
   constructor() {
@@ -114,7 +115,7 @@ class ClassValidator extends LinValidator {
 class AddCategoryValidator extends LinValidator {
   constructor() {
     super()
-    this.value = [new Rule('isLength', '不允许为空', { min: 1 })];
+    this.value = [new Rule('isFloat', '需要传入数值', { min: 1 })]
     this.categoryId = [new Rule('isLength', '不允许为空', { min: 1 })];
     this.describe = [
       new Rule('isOptional'),

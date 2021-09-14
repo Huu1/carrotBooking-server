@@ -61,6 +61,7 @@ const generateToken = function (uid, scope) {
 }
 
 const DateReg = /^(\d{1,4})(-)(\d{1,2})\2(\d{1,2})$/;
+const MonthReg = /^(\d{1,4})(-)(\d{1,2})$/;
 
 const checkDate = (date) => {
   if (!date) {
@@ -96,9 +97,45 @@ const checkDate = (date) => {
   };
 }
 
+const checkMonth = (date) => {
+  if (!date) {
+    return {
+      res: 4,
+      msg: '日期不能为空',
+    }
+  }
+  if (date.length === 7) {
+    const r = date.match(MonthReg);
+    if (r === null) {
+      // 不符合YYYY-MM-DD格式
+      return {
+        res: 2,
+        msg: '不符合YYYY-MM格式',
+      }
+    }
+    // 除去不正确时间如1234-45-56
+    const [, year, , month] = r;
+    if (year < 1970 || (+month < 1 || +month > 12)) {
+      return {
+        res: 3,
+        msg: '非法日期',
+      }
+    }
+    return {
+      res: 1,
+      yearMonth: [year, month],
+    }
+  }
+  return {
+    res: 2,
+    msg: '不符合YYYY-MM格式',
+  };
+}
+
 module.exports = {
   findMembers,
   generateToken,
   DateReg,
   checkDate,
+  checkMonth,
 }

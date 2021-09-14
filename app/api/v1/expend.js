@@ -34,7 +34,6 @@ router.get('/month', new Auth().m, async ctx => {
     data,
     error_code: 200,
   }
-
 })
 
 module.exports = router

@@ -1,6 +1,6 @@
 const { Sequelize, Model } = require('sequelize');
 const { db } = require('../../core/db');
-const { checkDate } = require('../../core/util');
+const { checkDate, checkMonth } = require('../../core/util');
 
 class Category extends Model {
   static async createCategory(data) {
@@ -78,21 +78,62 @@ class Expend extends Model {
   static async getMonthExpend(data) {
     const { date, uid } = data;
 
+    const { res, msg, yearMonth = [] } = checkMonth(date);
 
-    const res = await Expend.findAll({
+    if (res !== 1) {
+      throw new global.errs.NotIllegalDate(msg);
+    }
+
+    const [year, month] = yearMonth;
+
+    const list = await Expend.findAll({
       where: {
         [Sequelize.Op.and]: [
-          Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), 2020),
-          Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), 11),
+          Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), year),
+          Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), month),
         ],
+        uid,
       },
       include: [{
         model: Category,
         as: 'category',
+        attributes: ['title', 'icon'],
       }],
+      attributes: [
+        'value',
+        'describe',
+        'id',
+        [Sequelize.fn('DATE', Sequelize.col('date')), 'day'],
+      ],
+      order: [['date', 'DESC']],
     })
 
-    return res;
+    const all = await Expend.sum('value', {
+      where: {
+        [Sequelize.Op.and]: [
+          Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), year),
+          Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), month),
+        ],
+        uid,
+      },
+    })
+
+    return { list, all };
+
+    // const result = await Expend.findAll({
+    //   where: {
+    //     [Sequelize.Op.and]: [
+    //       Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), year),
+    //       Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), month),
+    //     ],
+    //     uid,
+    //   },
+    //   attributes: [
+    //     'date',
+    //     {}
+    //   ],
+    //   group: 'date',
+    // })
   }
 }
 
