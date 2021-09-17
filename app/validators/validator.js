@@ -127,6 +127,14 @@ class AddCategoryValidator extends LinValidator {
   }
 }
 
+// 删除一项支出验证
+class DelCategoryValidator extends LinValidator {
+  constructor() {
+    super();
+    this.expendId = [new Rule('isInt', '需要传入正整数', { min: 1 })];
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
@@ -134,4 +142,5 @@ module.exports = {
   NotEmptyValidator,
   ClassValidator,
   AddCategoryValidator,
+  DelCategoryValidator
 }

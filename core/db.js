@@ -32,7 +32,7 @@ sequelize.sync({
 Model.prototype.toJSON = function () {
   const data = clone(this.dataValues)
   unset(data, 'updated_at')
-  unset(data, 'created_at')
+  // unset(data, 'created_at')
   unset(data, 'deleted_at')
   for (const key in data) {
     if (key === 'image') {

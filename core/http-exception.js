@@ -1,5 +1,5 @@
 class HttpException extends Error {
-  constructor(msg = '服务器错误', errorCode = 10000, code = 400) {
+  constructor(msg = '服务器错误', errorCode = 10000, code = 200) {
     super()
     this.errorCode = errorCode
     this.code = code
@@ -11,7 +11,6 @@ class HttpException extends Error {
 class ParameterException extends HttpException {
   constructor(msg, errorCode) {
     super()
-    this.code = 400
     this.msg = msg || '参数错误'
     this.errorCode = errorCode || 10000
   }
@@ -21,7 +20,6 @@ class ParameterException extends HttpException {
 class Success extends HttpException {
   constructor(msg, errorCode) {
     super()
-    this.code = 201
     this.msg = msg || 'OK'
     this.errorCode = errorCode || 0
   }
@@ -33,7 +31,6 @@ class NotFound extends HttpException {
     super()
     this.msg = msg || '资源未找到'
     this.errorCode = errorCode || 10000
-    this.code = 404
   }
 }
 
@@ -42,8 +39,7 @@ class Forbidden extends HttpException {
   constructor(msg, errorCode) {
     super()
     this.msg = msg || '禁止访问'
-    this.errorCode = errorCode || 10006
-    this.code = 403
+    this.errorCode = errorCode || 401
   }
 }
 
@@ -53,7 +49,6 @@ class AuthFailed extends HttpException {
     super()
     this.msg = msg || '授权失败'
     this.errorCode = errorCode || 10004
-    this.code = 401
   }
 }
 
@@ -63,7 +58,6 @@ class Existing extends HttpException {
     super()
     this.msg = msg || '已存在'
     this.errorCode = errorCode || 10004
-    this.code = 200
   }
 }
 
@@ -73,7 +67,6 @@ class NotIllegalDate extends HttpException {
     super()
     this.msg = msg || '非法日期'
     this.errorCode = errorCode || 10004
-    this.code = 200
   }
 }
 
